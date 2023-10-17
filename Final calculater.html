@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scientific Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300vh;
+        }
+
+        #calculator {
+            width: 580px;
+           height:530px;
+            background-color: #333;
+            border: 2px solid #444;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            padding: 10px;
+        }
+
+        #result-display {
+            width: calc(100% - 20px);
+            height: 70px;
+            font-size: 28px;
+            background-color: #444;
+            border: 1px solid #555;
+            border-radius: 15px;
+            padding: 10px;
+            text-align: right;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .button-row {
+            display: flex;
+            margin-bottom: 5px;
+        }
+
+        .button {
+            flex: 1;
+            height: 60px;
+            font-size: 20px;
+            background-color: #555;
+            border: 1px solid #666;
+            border-radius: 10px;
+            margin: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .button-wide {
+            flex: 2;
+        }
+
+        .button-orange {
+            background-color: #FFA500;
+        }
+
+        .button-gray {
+            background-color: #666;
+        }
+
+        .button-equal {
+            background-color: #FF4500;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <div id="result-display">0</div>
+        <div class="button-row">
+            <div class="button button-gray" onclick="clearDisplay()">C</div>
+            <div class="button" onclick="appendToDisplay('7')">7</div>
+            <div class="button" onclick="appendToDisplay('8')">8</div>
+            <div class="button" onclick="appendToDisplay('9')">9</div>
+            <div class="button button-orange" onclick="appendOperator('/')">/</div>
+        </div>
+        <div class="button-row">
+            <div class="button" onclick="appendToDisplay('4')">4</div>
+            <div class="button" onclick="appendToDisplay('5')">5</div>
+            <div class="button" onclick="appendToDisplay('6')">6</div>
+            <div class="button button-orange" onclick="appendOperator('*')">*</div>
+        </div>
+        <div class="button-row">
+            <div class="button" onclick="appendToDisplay('1')">1</div>
+            <div class="button" onclick="appendToDisplay('2')">2</div>
+            <div class="button" onclick="appendToDisplay('3')">3</div>
+            <div class="button button-orange" onclick="appendOperator('-')">-</div>
+        </div>
+        <div class="button-row">
+            <div class="button" onclick="appendToDisplay('0')">0</div>
+            <div class="button" onclick="appendToDisplay('.')">.</div>
+            <div class="button button-equal" onclick="calculateResult()">=</div>
+            <div class="button button-orange" onclick="appendOperator('+')">+</div>
+        </div>
+        <div class="button-row">
+            <div class="button" onclick="calculateSquareRoot()">√</div>
+            <div class="button" onclick="calculateSquare()">x²</div>
+            <div class="button" onclick="calculateCubeRoot()">³√</div>
+            <div class="button" onclick="calculateCube()">x³</div>
+            <div class="button" onclick="calculateSin()">sin</div>
+            <div class="button" onclick="calculateCos()">cos</div>
+            <div class="button" onclick="calculateTan()">tan</div>
+            <div class="button" onclick="appendToDisplay(Math.PI)">π</div>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById("result-display");
+        let currentInput = "";
+        let isResultDisplayed = false;
+
+        function appendToDisplay(value) {
+            if (isResultDisplayed) {
+                clearDisplay();
+                isResultDisplayed = false;
+            }
+            currentInput += value;
+            display.textContent = currentInput;
+        }
+
+        function appendOperator(operator) {
+            if (isResultDisplayed) {
+                isResultDisplayed = false;
+            }
+            currentInput += " " + operator + " ";
+            display.textContent = currentInput;
+        }
+
+        function clearDisplay() {
+            currentInput = "";
+            display.textContent = "0";
+        }
+
+        function calculateResult() {
+            try {
+                currentInput = eval(currentInput);
+                display.textContent = currentInput;
+                isResultDisplayed = true;
+            } catch (error) {
+                display.textContent = "Error";
+                isResultDisplayed = true;
+            }
+        }
+
+        function calculateSquareRoot() {
+            currentInput = Math.sqrt(parseFloat(currentInput));
+            display.textContent = currentInput;
+            isResultDisplayed = true;
+        }
+
+        function calculateSquare() {
+            currentInput = Math.pow(parseFloat(currentInput), 2);
+            display.textContent = currentInput;
+            isResultDisplayed = true;
+        }
+
+        function calculateCubeRoot() {
+            currentInput = Math.cbrt(parseFloat(currentInput));
+            display.textContent = currentInput;
+            isResultDisplayed = true;
+        }
+
+        function calculateCube() {
+            currentInput = Math.pow(parseFloat(currentInput), 3);
+            display.textContent = currentInput;
+            isResultDisplayed = true;
+        }
+
+        function calculateSin() {
+            currentInput = Math.sin(parseFloat(currentInput));
+            display.textContent = currentInput;
+            isResultDisplayed = true;
+        }
+
+        function calculateCos() {
+            currentInput = Math.cos(parseFloat(currentInput));
+            display.textContent = currentInput;
+            isResultDisplayed = true;
+        }
+
+        function calculateTan() {
+            currentInput = Math.tan(parseFloat(currentInput));
+            display.textContent = currentInput;
+            isResultDisplayed = true;
+        }
+
+        // Listen for keyboard events
+        document.addEventListener('keydown', function (event) {
+            switch (event.key) {
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                case '0':
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                case '.':
+                    appendToDisplay(event.key);
+                    break;
+                case 'Enter':
+                    calculateResult();
+                    break;
+                case 'Backspace':
+                    clearDisplay();
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
